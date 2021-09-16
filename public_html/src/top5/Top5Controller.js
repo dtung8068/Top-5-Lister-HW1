@@ -33,6 +33,7 @@ export default class Top5Controller {
         document.getElementById("close-button").onmousedown = (event) => {
             this.model.unselectAll();
             this.model.clearList();
+            document.getElementById("add-list-button").disabled = false;
         }
 
         // SETUP THE ITEM HANDLERS
@@ -113,10 +114,13 @@ export default class Top5Controller {
         
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
-            this.model.unselectAll();
+            if(!this.model.checkNewList(id)) { //If you didn't select the same list: 
+                this.model.unselectAll();
 
-            // GET THE SELECTED LIST
-            this.model.loadList(id);
+                // GET THE SELECTED LIST
+                this.model.loadList(id);
+            }
+
             let list = document.getElementById("top5-list-" + id);
             //FOR RENAMING THE LIST (PART 1)
             list.ondblclick = (ev) => {
@@ -127,19 +131,18 @@ export default class Top5Controller {
                 textInput.setAttribute("type", "text");
                 textInput.setAttribute("id", "item-text-input-" + id);
                 textInput.setAttribute("value", this.model.currentList.getName());
-
                 list.appendChild(textInput);
-
+                textInput.focus();
                 textInput.ondblclick = (event) => { 
                     this.ignoreParentClick(event); //Highlight all text.
                 }
                 textInput.onkeydown = (event) => {
                     if (event.key === 'Enter') {
-                        this.model.editListName(event.target.value);
+                        this.model.editListName(event.target.value, id);
                     }
                 }
                 textInput.onblur = (event) => {
-                    this.model.editListName(event.target.value);
+                    this.model.editListName(event.target.value, id);
                 }                
             }
         }

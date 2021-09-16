@@ -72,10 +72,18 @@ export default class Top5Model {
         this.view.clearWorkspace();
         this.view.clearStatus();
     }
-    editListName(newName) {
-        this.currentList.setName(newName);
+    editListName(newName, id) {
+        let oldName = this.currentList;
+        if(newName === '') {
+            newName = "Untitled"
+        }
+        if(oldName.id === id) {
+            this.currentList.setName(newName);           
+        }
         this.sortLists();
         this.saveLists();
+        this.loadList(oldName.id); 
+
     }
 
     sortLists() {
@@ -274,5 +282,10 @@ export default class Top5Model {
         }
         return false;
     }
-    
+    checkNewList(newId) {
+        if(this.currentList === this.top5Lists[newId]) {
+            return true;
+        }
+        return false;
+    }
 }
