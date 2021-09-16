@@ -125,7 +125,7 @@ export default class Top5Controller {
             //FOR RENAMING THE LIST (PART 1)
             list.ondblclick = (ev) => {
                 list.innerHTML = "";
-
+                document.getElementById("add-list-button").disabled = true;
                 // ADD A TEXT FIELD
                 let textInput = document.createElement("input");
                 textInput.setAttribute("type", "text");
@@ -139,10 +139,12 @@ export default class Top5Controller {
                 textInput.onkeydown = (event) => {
                     if (event.key === 'Enter') {
                         this.model.editListName(event.target.value, id);
+                        document.getElementById("add-list-button").disabled = false;
                     }
                 }
                 textInput.onblur = (event) => {
                     this.model.editListName(event.target.value, id);
+                    document.getElementById("add-list-button").disabled = false;
                 }                
             }
         }
