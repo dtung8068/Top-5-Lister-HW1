@@ -205,6 +205,9 @@ export default class Top5Model {
     addChangeItemTransaction = (id, newText) => {
         // GET THE CURRENT TEXT
         let oldText = this.currentList.items[id];
+        if(newText === '') {
+            newText = "Untitled";
+        }
         let transaction = new ChangeItem_Transaction(this, id, oldText, newText);
         this.tps.addTransaction(transaction);
         this.view.updateToolbarButtons(this);
